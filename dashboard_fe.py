@@ -9,14 +9,18 @@ import plotly.express as px
 from MongoDB_utils import find_professor, get_all_professor_names
 from Mysql_utils import  create_my_table, update_my_table, delete_my_table, create_top10_professors_by_school, create_top10_professors_by_keywords
 from Neo4j_utils import create_top10_professors_by_publications
+import mysql.connector as sql
 
-avocado = pd.read_csv('avocado-updated-2020.csv')
+db_connection = sql.connect(host='localhost', database='academicworld', user='root', password='test_root')
+myProfessor_list = pd.read_sql('SELECT * FROM MyProfessor', con=db_connection)
+
 app = dash.Dash()
 
 faculty_names = get_all_professor_names()
 professor = {}
 NUM_PROFESSORS = 10
 NUM_ATTRIBUTES = 4
+
 #print(faculty)
 app.layout = html.Div(
     children=[
@@ -48,11 +52,11 @@ app.layout = html.Div(
                                     for name in faculty_names],
                                     value='New York'
                 ),
-                dash_table.DataTable(id='update-table'),
+                dash_table.DataTable(id='update-table', data=myProfessor_list.to_dict('records'), page_size=10),
                 dbc.Button(id='professor-update-button', children='Add Professor'),
             ],
-
-            style={'display': 'inline-block', 'width': '500px', 'vertical-align': 'top'}),
+            style={'display': 'inline-block', 'width': '600px', 'vertical-align': 'top'}),
+            
             html.Div([
                 html.H1(children='Delete Professor'),
                 dcc.Dropdown(
@@ -149,17 +153,15 @@ def render_affiliation(selected_professor):
 @app.callback(
     Output('update-table', 'children'),
     [Input('professor-update-button', 'n_clicks')],
-    Input('update-table', 'active_cell'),
     [dash.dependencies.State('update-professor-dropdown', 'value')]
 )
 def update_professor(n_clicks, selected_value):
+    print('updating professor ' + selected_value)
     if n_clicks is None:
         return html.P('')
-    professors = update_my_table(selected_value)
-    df = pd.read_json(professors)
-    print(df)
-    return 'asd'
-
+    update_my_table(selected_value)
+    myProfessor_list = pd.read_sql('SELECT * FROM MyProfessor', con=db_connection)
+    return myProfessor_list
 
 @app.callback(
     Output('delete-table', 'children'),
