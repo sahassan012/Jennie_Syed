@@ -7,10 +7,8 @@ myclient = MongoClient("mongodb://localhost:27017/")
 db = myclient["academicworld"]
 collection = db["faculty"]
 
-def find_professor():
-    user_input_name = input("Enter the name: ")
-    # Li,Qun
-    user_input_name = str(user_input_name)
+def find_professor(name):
+    user_input_name = name
     professor_name = {"name" : "{}".format(user_input_name)}
     professor_column = {"name":1, "position":1, "researchInterest":1, "email":1, "phone":1, "photoUrl":1, "affiliation.name":1, "_id":0}
 
@@ -25,7 +23,11 @@ def find_professor():
         data_set["position"] = data["position"]
         affiliation = data["affiliation"]
         data_set["affiliation"] = affiliation["name"]
-
-    print(data_set)
-
     return data_set
+
+def get_all_professor_names():
+    faculty_data= collection.find({})
+    professor_names = []
+    for data in faculty_data:
+        professor_names.append(data["name"])
+    return professor_names

@@ -4,7 +4,7 @@ from MongoDB_utils import find_professor
 mydb = mysql.connector.connect(
     host="localhost",
     user="root", # You need your username for mysql
-    password="mspider0603", # You need your password for mysql
+    password="test_root", # You need your password for mysql
     database="academicworld"
 )
 
@@ -37,8 +37,8 @@ def create_my_table(MyProfessor):
 
     return print("MyProfessor table is created")
 
-def update_my_table():
-    data = find_professor()
+def update_my_table(professor):
+    data = find_professor(professor)
     table_name = 'MyProfessor'
     name = data["name"]
     phone = data["phone"]
@@ -52,9 +52,9 @@ def update_my_table():
     print(result)
     return result
 
-def delete_my_table():
-    user_input_name = input("Enter the name: ")
-    user_input_name = str(user_input_name)
+def delete_my_table(professor):
+    #user_input_name = input("Enter the name: ")
+    user_input_name = professor
     delete_query = "Delete from MyProfessor where name = \"{}\"".format(user_input_name)
     delete_professor = mycursor.execute(delete_query)
     mydb.commit()
