@@ -34,13 +34,13 @@ app.layout = html.Div(
                                     for name in faculty_names],
                                     value='New York'
                 ),
-                html.P(id='professor-name', children='Name:', style={'color': 'red'}),
-                html.P(id='professor-position', children='Position:', style={'color': 'red'}),
-                html.P(id='professor-interest', children='Interest:', style={'color': 'red'}),
-                html.P(id='professor-email', children='Email:', style={'color': 'red'}),
-                html.P(id='professor-phone', children='Phone:', style={'color': 'red'}),
-                html.P(id='professor-url', children='Url:', style={'color': 'red'}),
-                html.P(id='professor-affiliation', children='Affiliation:', style={'color': 'red'})
+                html.P(id='professor-name', children='Name:', style={'color': ''}),
+                html.P(id='professor-position', children='Position:', style={'color': ''}),
+                html.P(id='professor-interest', children='Interest:', style={'color': ''}),
+                html.P(id='professor-email', children='Email:', style={'color': ''}),
+                html.P(id='professor-phone', children='Phone:', style={'color': ''}),
+                html.P(id='professor-affiliation', children='Affiliation:', style={'color': ''}),
+                # html.Img(id='professor-url', children='Url:', style={'color': ''}),
             ],
             style={'display': 'inline-block', 'width': '550px', 'vertical-align': 'top'}),
 
