@@ -14,5 +14,5 @@ from Neo4j_utils import create_top10_professors_by_publications
 # delete_my_table()
 #create_top10_professors_by_publications()
 #create_top10_professors_by_keywords()
-#Neo4J
+#Neo4Jgit
 #create_top10_professors_by_publications()
